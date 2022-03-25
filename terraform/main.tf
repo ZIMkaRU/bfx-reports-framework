@@ -8,6 +8,28 @@ locals {
   ec2_root_dir = "/home/${local.ec2_user_name}/bfx-reports-framework"
 }
 
+# https://www.terraform.io/language/settings/backends/s3
+# https://github.com/cloudposse/terraform-aws-tfstate-backend
+module "terraform_state_backend" {
+  source = "cloudposse/tfstate-backend/aws"
+  version = "0.38.1"
+
+  namespace  = var.namespace
+  stage = var.env
+  name = "tf_bfx_reports_framework"
+  attributes = ["state"]
+
+  terraform_backend_config_file_path = "."
+  terraform_backend_config_file_name = "backend.tf"
+  force_destroy = var.should_tf_state_backend_be_force_destroyed
+  enabled = var.is_tf_state_backend_enabled
+
+  tags = merge(
+    local.common_tags,
+    { Name = "${var.namespace}_Terraform_State_Backend" }
+  )
+}
+
 module "network" {
   source = "./modules/network"
   namespace = var.namespace

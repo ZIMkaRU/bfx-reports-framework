@@ -129,6 +129,24 @@ variable "aws_vpc_cidr" {
   default = "10.11.0.0/16"
 }
 
+variable "is_tf_state_backend_enabled" {
+  type = bool
+  description = "Is terraform state backend enabled"
+  default = false
+}
+
+variable "should_tf_state_backend_be_force_destroyed" {
+  type = bool
+  description = "Should terraform state backend be force destroyed"
+  default = false
+}
+
+variable "terraform_backend_config_file_path" {
+  type = string
+  description = ""
+  default = "."
+}
+
 variable "common_tags" {
   type = map
   description = "Common tags"

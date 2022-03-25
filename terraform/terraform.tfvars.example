@@ -8,3 +8,8 @@ repo_fork="master"
 repo_branch="bitfinexcom"
 
 env="production"
+
+# TF state backend usage: https://github.com/cloudposse/terraform-aws-tfstate-backend#usage
+is_tf_state_backend_enabled=false
+should_tf_state_backend_be_force_destroyed=false
+terraform_backend_config_file_path="."
