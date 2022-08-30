@@ -33,7 +33,7 @@ class WinLossVSAccountBalance {
       start = 0,
       end = Date.now(),
       isUnrealizedProfitExcluded,
-      isVSPrevDayBalance
+      isVSPrevDayBalance = true
     } = params ?? {}
     const args = {
       auth: user,
