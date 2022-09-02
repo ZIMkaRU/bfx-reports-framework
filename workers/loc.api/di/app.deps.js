@@ -284,7 +284,6 @@ module.exports = ({
       .inSingletonScope()
     bind(TYPES.SyncTempTablesManager)
       .to(SyncTempTablesManager)
-      .inSingletonScope()
     bind(TYPES.Checkers)
       .to(Checkers)
       .inSingletonScope()
