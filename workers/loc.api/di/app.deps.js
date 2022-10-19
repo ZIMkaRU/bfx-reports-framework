@@ -263,7 +263,9 @@ module.exports = ({
         [
           TYPES.DAO,
           TYPES.TABLES_NAMES,
-          TYPES.WSEventEmitter
+          TYPES.WSEventEmitter,
+          TYPES.Authenticator,
+          TYPES.SyncCollsManager
         ]
       )
     )
