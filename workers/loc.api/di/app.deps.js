@@ -257,6 +257,9 @@ module.exports = ({
           ]
         )
       )
+    bind(TYPES.SyncCollsManager)
+      .to(SyncCollsManager)
+      .inSingletonScope()
     bind(TYPES.RedirectRequestsToApi).toConstantValue(
       bindDepsToFn(
         redirectRequestsToApi,
@@ -287,9 +290,6 @@ module.exports = ({
       .to(RecalcSubAccountLedgersBalancesHook)
     bind(TYPES.SyncQueue)
       .to(SyncQueue)
-      .inSingletonScope()
-    bind(TYPES.SyncCollsManager)
-      .to(SyncCollsManager)
       .inSingletonScope()
     bind(TYPES.SyncTempTablesManager)
       .to(SyncTempTablesManager)
