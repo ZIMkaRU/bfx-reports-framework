@@ -1,18 +1,25 @@
 'use strict'
 
+const INTERRUPTER_NAMES = require(
+  '@bitfinex/bfx-report/workers/loc.api/interrupter/interrupter.names'
+)
+
 const { decorateInjectable } = require('../../di/utils')
 
 const depsTypes = (TYPES) => [
   TYPES.Wallets,
-  TYPES.PositionsSnapshot
+  TYPES.PositionsSnapshot,
+  TYPES.InterrupterFactory
 ]
 class FullSnapshotReport {
   constructor (
     wallets,
-    positionsSnapshot
+    positionsSnapshot,
+    interrupterFactory
   ) {
     this.wallets = wallets
     this.positionsSnapshot = positionsSnapshot
+    this.interrupterFactory = interrupterFactory
   }
 
   _getWalletsTickers (walletsSnapshot = []) {
@@ -90,11 +97,19 @@ class FullSnapshotReport {
   }
 
   async getFullSnapshotReport (args) {
-    const { params = {} } = { ...args }
-    const { end = Date.now() } = { ...params }
+    const { auth, params } = args ?? {}
+    const end = params.end ?? Date.now()
+    const user = await this.authenticator
+      .verifyRequestUser({ auth })
+    // TODO:
+    const interrupter = this.interrupterFactory({
+      user,
+      name: INTERRUPTER_NAMES.FULL_SNAPSHOT_REPORT_INTERRUPTER
+    })
 
     const _args = {
       ...args,
+      auth: user,
       params: {
         ...params,
         end
