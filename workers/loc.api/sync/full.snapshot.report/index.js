@@ -151,27 +151,18 @@ class FullSnapshotReport {
       tickers: positionsTickers
     } = positionsSnapshotAndTickers
 
-    const walletsTickersPromise = this._getWalletsTickers(
+    const walletsTickers = this._getWalletsTickers(
       walletsSnapshot,
       interrupter
     )
-    const positionsTotalPlUsdPromise = this._calcPositionsTotalPlUsd(
+    const positionsTotalPlUsd = this._calcPositionsTotalPlUsd(
       positionsSnapshot,
       interrupter
     )
-    const walletsTotalBalanceUsdPromise = this._calcWalletsTotalBalanceUsd(
+    const walletsTotalBalanceUsd = this._calcWalletsTotalBalanceUsd(
       walletsSnapshot,
       interrupter
     )
-    const [
-      walletsTickers,
-      positionsTotalPlUsd,
-      walletsTotalBalanceUsd
-    ] = await Promise.all([
-      walletsTickersPromise,
-      positionsTotalPlUsdPromise,
-      walletsTotalBalanceUsdPromise
-    ])
 
     const hasInterrupted = interrupter.hasInterrupted()
     interrupter.emitInterrupted()
