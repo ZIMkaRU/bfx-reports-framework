@@ -22,7 +22,7 @@ class FullSnapshotReport {
     this.interrupterFactory = interrupterFactory
   }
 
-  _getWalletsTickers (walletsSnapshot = []) {
+  _getWalletsTickers (walletsSnapshot = [], interrupter) {
     if (!Array.isArray(walletsSnapshot)) {
       return []
     }
@@ -40,7 +40,8 @@ class FullSnapshotReport {
         !Number.isFinite(balance) ||
         !Number.isFinite(balanceUsd) ||
         balance === 0 ||
-        balanceUsd === 0
+        balanceUsd === 0 ||
+        interrupter.hasInterrupted()
       ) {
         return accum
       }
@@ -151,7 +152,8 @@ class FullSnapshotReport {
     } = positionsSnapshotAndTickers
 
     const walletsTickersPromise = this._getWalletsTickers(
-      walletsSnapshot
+      walletsSnapshot,
+      interrupter
     )
     const positionsTotalPlUsdPromise = this._calcPositionsTotalPlUsd(
       positionsSnapshot,
