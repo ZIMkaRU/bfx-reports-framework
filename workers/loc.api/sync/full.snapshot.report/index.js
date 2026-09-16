@@ -60,10 +60,11 @@ class FullSnapshotReport {
     }, [])
   }
 
-  _calcObjFieldInArr (array, fieldName) {
+  _calcObjFieldInArr (array, fieldName, interrupter) {
     if (
       !Array.isArray(array) ||
-      array.length === 0
+      array.length === 0 ||
+      interrupter.hasInterrupted()
     ) {
       return null
     }
@@ -82,17 +83,19 @@ class FullSnapshotReport {
     }, 0)
   }
 
-  _calcPositionsTotalPlUsd (positionsSnapshot) {
+  _calcPositionsTotalPlUsd (positionsSnapshot, interrupter) {
     return this._calcObjFieldInArr(
       positionsSnapshot,
-      'plUsd'
+      'plUsd',
+      interrupter
     )
   }
 
-  _calcWalletsTotalBalanceUsd (walletsSnapshot) {
+  _calcWalletsTotalBalanceUsd (walletsSnapshot, interrupter) {
     return this._calcObjFieldInArr(
       walletsSnapshot,
-      'balanceUsd'
+      'balanceUsd',
+      interrupter
     )
   }
 
@@ -151,10 +154,12 @@ class FullSnapshotReport {
       walletsSnapshot
     )
     const positionsTotalPlUsdPromise = this._calcPositionsTotalPlUsd(
-      positionsSnapshot
+      positionsSnapshot,
+      interrupter
     )
     const walletsTotalBalanceUsdPromise = this._calcWalletsTotalBalanceUsd(
-      walletsSnapshot
+      walletsSnapshot,
+      interrupter
     )
     const [
       walletsTickers,
