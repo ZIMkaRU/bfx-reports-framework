@@ -96,16 +96,31 @@ class FullSnapshotReport {
     )
   }
 
+  #getEmptyResponse (timestamps) {
+    return {
+      timestamps,
+      positionsSnapshot: [],
+      walletsSnapshot: [],
+      positionsTickers: [],
+      walletsTickers: [],
+      positionsTotalPlUsd: null,
+      walletsTotalBalanceUsd: null
+    }
+  }
+
   async getFullSnapshotReport (args) {
     const { auth, params } = args ?? {}
     const end = params.end ?? Date.now()
     const user = await this.authenticator
       .verifyRequestUser({ auth })
-    // TODO:
     const interrupter = this.interrupterFactory({
       user,
       name: INTERRUPTER_NAMES.FULL_SNAPSHOT_REPORT_INTERRUPTER
     })
+    const timestamps = {
+      mtsCreated: Date.now(),
+      end
+    }
 
     const _args = {
       ...args,
@@ -151,11 +166,15 @@ class FullSnapshotReport {
       walletsTotalBalanceUsdPromise
     ])
 
+    const hasInterrupted = interrupter.hasInterrupted()
+    interrupter.emitInterrupted()
+
+    if (hasInterrupted) {
+      return this.#getEmptyResponse(timestamps)
+    }
+
     return {
-      timestamps: {
-        mtsCreated: Date.now(),
-        end
-      },
+      timestamps,
       positionsSnapshot,
       walletsSnapshot,
       positionsTickers,
