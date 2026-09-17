@@ -69,7 +69,7 @@ class BfxApiRouter extends BaseBfxApiRouter {
       !methodName ||
       methodName.startsWith('_')
     ) {
-      return method()
+      return this.execMethod(method, interrupter)
     }
 
     if (!rateLimitCheckerMaps.has(methodName)) {
@@ -108,13 +108,13 @@ class BfxApiRouter extends BaseBfxApiRouter {
       }).then(() => {
         rateLimitChecker.add()
 
-        return method()
+        return this.execMethod(method, interrupter)
       })
     }
 
     rateLimitChecker.add()
 
-    return method()
+    return this.execMethod(method, interrupter)
   }
 }
 
