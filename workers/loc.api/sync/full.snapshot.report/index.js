@@ -136,7 +136,7 @@ class FullSnapshotReport {
     }
 
     const positionsSnapshotAndTickersPromise = this.positionsSnapshot
-      .getPositionsSnapshotAndTickers(_args)
+      .getPositionsSnapshotAndTickers(_args, { interrupter })
     const walletsSnapshotPromise = this.wallets
       .getWalletsConvertedByPublicTrades(_args, { interrupter })
     const [
