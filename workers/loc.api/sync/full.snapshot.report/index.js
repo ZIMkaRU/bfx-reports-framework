@@ -9,17 +9,20 @@ const { decorateInjectable } = require('../../di/utils')
 const depsTypes = (TYPES) => [
   TYPES.Wallets,
   TYPES.PositionsSnapshot,
-  TYPES.InterrupterFactory
+  TYPES.InterrupterFactory,
+  TYPES.Authenticator
 ]
 class FullSnapshotReport {
   constructor (
     wallets,
     positionsSnapshot,
-    interrupterFactory
+    interrupterFactory,
+    authenticator
   ) {
     this.wallets = wallets
     this.positionsSnapshot = positionsSnapshot
     this.interrupterFactory = interrupterFactory
+    this.authenticator = authenticator
   }
 
   _getWalletsTickers (walletsSnapshot = [], interrupter) {
