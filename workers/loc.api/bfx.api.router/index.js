@@ -139,7 +139,7 @@ class BfxApiRouter extends BaseBfxApiRouter {
 
     let onceInterruptHandler = null
     const intPromise = new Promise((resolve) => {
-      onceInterruptHandler = (p = 'interrupt') => {
+      onceInterruptHandler = () => {
         onceInterruptHandler = null
         resolve()
       }
@@ -148,9 +148,7 @@ class BfxApiRouter extends BaseBfxApiRouter {
     })
 
     return Promise.race([
-      res.then((r) => {
-        return r
-      }),
+      res,
       intPromise
     ]).finally(() => {
       if (typeof onceInterruptHandler !== 'function') {
@@ -158,7 +156,7 @@ class BfxApiRouter extends BaseBfxApiRouter {
       }
 
       interrupter.offInterrupt(onceInterruptHandler)
-      onceInterruptHandler('finally')
+      onceInterruptHandler()
     })
   }
 }
