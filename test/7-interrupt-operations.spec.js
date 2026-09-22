@@ -256,6 +256,10 @@ describe('Interrupt operations', () => {
     assert.isArray(fullSnapshotReport.body.result.walletsSnapshot)
     assert.isArray(fullSnapshotReport.body.result.positionsTickers)
     assert.isArray(fullSnapshotReport.body.result.walletsTickers)
+    assert.lengthOf(fullSnapshotReport.body.result.positionsSnapshot, 0)
+    assert.lengthOf(fullSnapshotReport.body.result.walletsSnapshot, 0)
+    assert.lengthOf(fullSnapshotReport.body.result.positionsTickers, 0)
+    assert.lengthOf(fullSnapshotReport.body.result.walletsTickers, 0)
     assert.isNull(fullSnapshotReport.body.result.positionsTotalPlUsd)
     assert.isNull(fullSnapshotReport.body.result.walletsTotalBalanceUsd)
 
