@@ -117,7 +117,7 @@ class FullSnapshotReport {
 
   async getFullSnapshotReport (args) {
     const { auth, params } = args ?? {}
-    const end = params.end ?? Date.now()
+    const end = params?.end ?? Date.now()
     const user = await this.authenticator
       .verifyRequestUser({ auth })
     const interrupter = this.interrupterFactory({
